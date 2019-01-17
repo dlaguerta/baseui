@@ -32,18 +32,21 @@ export type DatepickerOverridesT<T> = {
 export type DayPropsT = {
   disabled: boolean,
   date: Date,
-  // highlightDates: Array<Date>,
+  filterDate: ?(day: Date) => boolean,
+  highlightedDate: ?Date,
+  includeDates: ?Array<Date>,
   isHighlighted: boolean,
+  isRange: boolean,
   maxDate: ?Date,
   minDate: ?Date,
   month: ?number,
-  onSelect: ({date: Date}) => void,
-  onClick: ({event: Event, date: Date}) => void,
-  onMouseOver: ({event: Event, date: Date}) => void,
-  onMouseLeave: ({event: Event, date: Date}) => void,
+  onSelect: ({date: Date | Array<Date>}) => mixed,
+  onClick: ({event: Event, date: Date}) => mixed,
+  onMouseOver: ({event: Event, date: Date}) => mixed,
+  onMouseLeave: ({event: Event, date: Date}) => mixed,
   overrides?: DatepickerOverridesT<{}>,
   peekNextMonth: boolean,
-  selected: boolean,
+  value: ?Date | Array<Date>,
 };
 
 export type DayStateT = {
@@ -54,21 +57,21 @@ export type WeekPropsT = {
   date: Date,
   excludeDates: ?Array<Date>,
   filterDate: ?(day: Date) => boolean,
-  highlightDates: ?Array<Date>,
   // highlighted while keyboard navigating or hovered
   highlightedDate: ?Date,
   includeDates: ?Array<Date>,
+  isRange: boolean,
   locale: ?LocaleT,
   maxDate: ?Date,
   minDate: ?Date,
   month: ?number,
-  onDayClick: ({date: Date, event: Event}) => void,
-  onDayMouseOver: ({date: Date, event: Event}) => void,
-  onDayMouseLeave: ({date: Date, event: Event}) => void,
-  onSelect: ({date: Date}) => void,
+  onDayClick: ({date: Date, event: Event}) => mixed,
+  onDayMouseOver: ({date: Date, event: Event}) => mixed,
+  onDayMouseLeave: ({date: Date, event: Event}) => mixed,
+  onSelect: ({date: Date | Array<Date>}) => mixed,
   overrides?: DatepickerOverridesT<{}>,
   peekNextMonth: boolean,
-  selected: ?Date,
+  selected: ?Date | Array<Date>,
 };
 
 export type MonthPropsT = WeekPropsT;
@@ -76,7 +79,6 @@ export type MonthPropsT = WeekPropsT;
 export type CalendarPropsT = {
   excludeDates: ?Array<Date>,
   filterDate: ?(day: Date) => boolean,
-  highlightDates: ?Array<Date>,
   highlightedDate: ?Date,
   includeDates: ?Array<Date>,
   isRange: boolean,
@@ -89,7 +91,7 @@ export type CalendarPropsT = {
   onDayMouseLeave: ({date: Date, event: Event}) => void,
   onMonthChange: ({date: Date}) => void,
   onYearChange: ({date: Date}) => void,
-  onSelect: ({date: Date}) => void,
+  onSelect: ({date: Date | Array<Date>}) => void,
   overrides?: DatepickerOverridesT<{}>,
   peekNextMonth: boolean,
   selected: ?Date | Array<Date>,
@@ -101,18 +103,26 @@ export type HeaderPropsT = CalendarPropsT & {
 };
 
 export type SharedStylePropsT = {
+  $date: Date,
   $disabled: boolean,
   $isHighlighted: boolean,
   $isHovered: boolean,
   $outsideMonth: boolean,
+  $pseudoHighlighted: boolean,
+  $pseudoSelected: boolean,
   $selected: boolean,
+  $startDate: boolean,
+  $isRange: boolean,
+  $hasRangeHighlighted: boolean,
+  $hasRangeOnRight: boolean,
+  $hasRangeSelected: boolean,
   $theme: ThemeT,
 };
 
 export type StateChangeTypeT = ?$Values<typeof STATE_CHANGE_TYPE>;
 
 export type CalendarStateT = {
-  value?: ?Date,
+  value?: ?Date | Array<Date>,
 };
 
 export type NavigationContainerStateT = {
@@ -151,8 +161,8 @@ export type NavigationContainerPropsT = {
   highlightedDate?: ?Date,
   onDayMouseOver: (params: {date: Date, event: Event}) => void,
   onDayMouseLeave: (params: {date: Date, event: Event}) => void,
-  onSelect: ({date: Date}) => void,
-  selected?: ?Date,
+  onSelect: ({date: Date | Array<Date>}) => void,
+  selected?: ?Date | Array<Date>,
   stateReducer: NavigationContainerStateReducerT,
 };
 
