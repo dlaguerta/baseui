@@ -158,6 +158,7 @@ export type StatefulContainerPropsT = {
 
 export type NavigationContainerPropsT = {
   children: CalendarPropsT => React.Node,
+  isRange?: boolean,
   highlightedDate?: ?Date,
   onDayMouseOver: (params: {date: Date, event: Event}) => void,
   onDayMouseLeave: (params: {date: Date, event: Event}) => void,
