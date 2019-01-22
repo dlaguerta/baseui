@@ -78,6 +78,10 @@ const routes = [
             text: 'Textarea',
             path: getPath('/components/textarea'),
           },
+          {
+            text: 'Datepicker',
+            path: getPath('/components/datepicker'),
+          },
         ],
       },
       {
